@@ -1,14 +1,18 @@
-﻿using imasderol.domain.zombicide.skill;
+﻿using imasderol.infrastructure.zombicide.skill;
 using Microsoft.EntityFrameworkCore;
 
 namespace imasderol.infrastructure;
 
-public class ImasderolDbContext : DbContext
+public class ImasderolDb : DbContext
 {
-    public DbSet<Skill>? Skills { get; set; }
+    public ImasderolDb(DbContextOptions options) : base(options) { }
+    
+    public ImasderolDb() { }
+    
+    public DbSet<SkillDto>? Skills { get; set; }
     
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseSqlite("Data Source=imasderol.db");
+        optionsBuilder.UseSqlite("Data Source=C:\\imasderol\\imasderol.db");
     }
 }

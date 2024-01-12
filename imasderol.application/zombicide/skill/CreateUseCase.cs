@@ -4,8 +4,8 @@ namespace imasderol.application.zombicide.skill;
 
 public class CreateUseCase(SkillCreator skillCreator)
 {
-    public Skill Execute(string name, string description)
+    public Skill Execute(CreateRequest request)
     {
-        return skillCreator.Execute(Guid.NewGuid(), name, description);
+        return skillCreator.Execute(Guid.NewGuid(), request.Name, request.Description);
     }
 }
