@@ -8,7 +8,6 @@ public class Description
 
     private const int MaxLength = 500;
 
-    /// <exception cref="ValidationException"></exception>
     public Description(string value)
     {
         Validate(value);

@@ -9,7 +9,6 @@ public class Name
     private const int MinLength = 3;
     private const int MaxLength = 100;
 
-    /// <exception cref="ValidationException"></exception>
     public Name(string value)
     {
         Validate(value);
