@@ -1,4 +1,3 @@
-using imasderol.application.zombicide.skill;
 using imasderol.application.zombicide.skill.createSkillCommand;
 using imasderol.application.zombicide.skill.deleteSkillCommand;
 using imasderol.application.zombicide.skill.findSkillByIdQuery;
@@ -54,15 +53,12 @@ public class SkillController : ControllerBase
         }
     }
 
-
-
     [HttpPut("{id}")]
-    public ActionResult<SkillDto> UpdateSkill(string id, [FromBody] UpdateSkillCommand auxCommand, [FromServices] UpdateSkillCommandHandler handler)
+    public ActionResult<SkillDto> UpdateSkill(string id, [FromBody] UpdateSkillCommand command, [FromServices] UpdateSkillCommandHandler handler)
     {
         try
         {
-            var command = new UpdateSkillCommand(Guid.Parse(id), auxCommand.Name, auxCommand.Description);
-            var skill = handler.Execute(command);
+            var skill = handler.Execute(command with { Id = Guid.Parse(id) });
 
             return new SkillDto(skill.Id.ToString(), skill.Name.Value, skill.Description.Value);
         }
