@@ -7,7 +7,7 @@ using imasderol.infrastructure.zombicide.skill;
 
 namespace imasderol.api;
 
-public static class ServicesManager
+public static class ImasderolServicesManager
 {
     public static void AddImasderolDependencies(this IServiceCollection services)
     {

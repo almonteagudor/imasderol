@@ -1,4 +1,3 @@
-using imasderol.application.zombicide.skill;
 using imasderol.application.zombicide.skill.createSkillCommand;
 using imasderol.application.zombicide.skill.deleteSkillCommand;
 using imasderol.application.zombicide.skill.findSkillByIdQuery;
@@ -19,15 +18,15 @@ public class SkillController : ControllerBase
             skill => new SkillDto(skill.Id.ToString(), skill.Name.Value, skill.Description.Value)
         );
     }
-    
+
     [HttpGet("{id}")]
-    public IActionResult FindSkillById(string id, [FromServices] FindSkillByIdQueryHandler handler)
+    public ActionResult<SkillDto> FindSkillById(string id, [FromServices] FindSkillByIdQueryHandler handler)
     {
         try
         {
             var skill = handler.Execute(new FindSkillByIdQuery(id));
 
-            return Ok(new SkillDto(skill.Id.ToString(), skill.Name.Value, skill.Description.Value));
+            return new SkillDto(skill.Id.ToString(), skill.Name.Value, skill.Description.Value);
         }
         catch (NotFoundException exception)
         {
@@ -36,11 +35,22 @@ public class SkillController : ControllerBase
     }
 
     [HttpPost]
-    public SkillDto CreateSkill([FromBody] CreateSkillCommand command, [FromServices] CreateSkillCommandHandler handler)
+    public ActionResult<SkillDto> CreateSkill([FromBody] CreateSkillCommand command, [FromServices] CreateSkillCommandHandler handler)
     {
-        var skill = handler.Execute(command);
-        
-        return new SkillDto(skill.Id.ToString(), skill.Name.Value, skill.Description.Value);
+        try
+        {
+            var skill = handler.Execute(command);
+
+            return Created((string?)null, new SkillDto(skill.Id.ToString(), skill.Name.Value, skill.Description.Value));
+        }
+        catch (ValidationException exception)
+        {
+            return BadRequest(exception.Messages);
+        }
+        catch (NotSavedException exception)
+        {
+            return Conflict(exception.Message);
+        }
     }
 
     //
@@ -49,10 +59,23 @@ public class SkillController : ControllerBase
     // public void Put(int id, [FromBody] string value)
     // {
     // }
-    
+
     [HttpDelete("{id}")]
-    public void DeleteSkill(string id, [FromServices] DeleteSkillCommandHandler handler)
+    public ActionResult DeleteSkill(string id, [FromServices] DeleteSkillCommandHandler handler)
     {
-        handler.Execute(new DeleteSkillCommand(id));
+        try
+        {
+            handler.Execute(new DeleteSkillCommand(id));
+
+            return NoContent();
+        }
+        catch (NotFoundException exception)
+        {
+            return NotFound(exception.Message);
+        }
+        catch (NotDeletedException exception)
+        {
+            return Conflict(exception.Message);
+        }
     }
 }

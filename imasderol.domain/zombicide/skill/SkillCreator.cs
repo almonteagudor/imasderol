@@ -15,17 +15,17 @@ public class SkillCreator
     /// <exception cref="ValidationException">Thrown if there are validation errors in the name or description parameters.</exception>
     public Skill Execute(Guid id, string name, string description)
     {
-        var validationException = new ValidationException();
+        var failedValidations = new ValidationException();
 
-        var skillName = ValidateAndCreate(() => new Name(name), validationException);
-        var skillDescription = ValidateAndCreate(() => new Description(name), validationException);
+        var skillName = ValidateAndCreate(() => new Name(name), failedValidations);
+        var skillDescription = ValidateAndCreate(() => new Description(description), failedValidations);
 
-        if (validationException.HasMessages()) throw validationException;
+        if (failedValidations.HasMessages()) throw failedValidations;
         
         return new Skill(id, skillName, skillDescription);
     }
     
-    private T ValidateAndCreate<T>(Func<T> createFunction, ValidationException validationException)
+    private T ValidateAndCreate<T>(Func<T> createFunction, ValidationException failedValidations)
     {
         try
         {
@@ -33,7 +33,7 @@ public class SkillCreator
         }
         catch (ValidationException e)
         {
-            validationException.AddMessages(e.Messages);
+            failedValidations.AddMessages(e.Messages);
             
             return default!;
         }
