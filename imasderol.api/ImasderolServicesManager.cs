@@ -20,6 +20,7 @@ public static class ImasderolServicesManager
     {
         services.AddScoped<CreateSkillCommandHandler>();
         services.AddScoped<DeleteSkillCommandHandler>();
+        services.AddScoped<UpdateSkillCommandHandler>();
         services.AddScoped<FindSkillByIdQueryHandler>();
         services.AddScoped<GetSkillsQueryHandler>();
     }
