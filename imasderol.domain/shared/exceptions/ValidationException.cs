@@ -2,20 +2,35 @@
 
 public class ValidationException : Exception
 {
-    public List<Exception> Exceptions { get; } = [];
+    public List<string> Messages { get; }
 
-    public void AddException(Exception exception)
+    public ValidationException()
     {
-        Exceptions.Add(exception);
-    }
-    
-    public void AddException(IEnumerable<Exception> exceptions)
-    {
-        Exceptions.AddRange(exceptions);
+        Messages = [];
     }
 
-    public bool HasExceptions()
+    public ValidationException(string message)
     {
-        return Exceptions.Count > 0;
+        Messages = [message];
+    }
+
+    public ValidationException(IEnumerable<string> messages)
+    {
+        Messages = messages.ToList();
+    }
+
+    public void AddMessages(string message)
+    {
+        Messages.Add(message);
+    }
+
+    public void AddMessages(IEnumerable<string> messages)
+    {
+        Messages.AddRange(messages);
+    }
+
+    public bool HasMessages()
+    {
+        return Messages.Count > 0;
     }
 }

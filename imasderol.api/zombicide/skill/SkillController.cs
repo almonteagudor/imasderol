@@ -1,4 +1,9 @@
 using imasderol.application.zombicide.skill;
+using imasderol.application.zombicide.skill.createSkillCommand;
+using imasderol.application.zombicide.skill.deleteSkillCommand;
+using imasderol.application.zombicide.skill.findSkillByIdQuery;
+using imasderol.application.zombicide.skill.getSkillsQuery;
+using imasderol.domain.shared.exceptions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace imasderol.api.zombicide.skill;
@@ -7,25 +12,35 @@ namespace imasderol.api.zombicide.skill;
 [ApiController]
 public class SkillController : ControllerBase
 {
-    // [HttpGet]
-    // public IEnumerable<string> Get()
-    // {
-    //     return new string[] { "value1", "value2" };
-    // }
-    //
-    // // GET api/<SkillController>/5
-    // [HttpGet("{id}")]
-    // public string Get(int id)
-    // {
-    //     return "value";
-    // }
+    [HttpGet]
+    public IEnumerable<SkillDto> GetSkills([FromServices] GetSkillsQueryHandler handler)
+    {
+        return handler.Execute().ToList().Select(
+            skill => new SkillDto(skill.Id.ToString(), skill.Name.Value, skill.Description.Value)
+        );
+    }
+    
+    [HttpGet("{id}")]
+    public IActionResult FindSkillById(string id, [FromServices] FindSkillByIdQueryHandler handler)
+    {
+        try
+        {
+            var skill = handler.Execute(new FindSkillByIdQuery(id));
+
+            return Ok(new SkillDto(skill.Id.ToString(), skill.Name.Value, skill.Description.Value));
+        }
+        catch (NotFoundException exception)
+        {
+            return NotFound(exception.Message);
+        }
+    }
 
     [HttpPost]
-    public CreatedResult Post([FromBody] CreateRequest request, [FromServices] CreateUseCase useCase)
+    public SkillDto CreateSkill([FromBody] CreateSkillCommand command, [FromServices] CreateSkillCommandHandler handler)
     {
-        var skill = useCase.Execute(request);
-
-        return Created((string?)null, skill);
+        var skill = handler.Execute(command);
+        
+        return new SkillDto(skill.Id.ToString(), skill.Name.Value, skill.Description.Value);
     }
 
     //
@@ -34,10 +49,10 @@ public class SkillController : ControllerBase
     // public void Put(int id, [FromBody] string value)
     // {
     // }
-    //
-    // // DELETE api/<SkillController>/5
-    // [HttpDelete("{id}")]
-    // public void Delete(int id)
-    // {
-    // }
+    
+    [HttpDelete("{id}")]
+    public void DeleteSkill(string id, [FromServices] DeleteSkillCommandHandler handler)
+    {
+        handler.Execute(new DeleteSkillCommand(id));
+    }
 }

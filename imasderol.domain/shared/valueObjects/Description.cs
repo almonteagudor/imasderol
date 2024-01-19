@@ -4,11 +4,11 @@ namespace imasderol.domain.shared.valueObjects;
 
 public class Description
 {
-    public string Value { get; init; }
+    public const int MaxLength = 500;
+    
+    public string Value { get; }
 
-    private const int MaxLength = 500;
-
-    public Description(string value)
+    internal Description(string value)
     {
         Validate(value);
 
@@ -17,14 +17,9 @@ public class Description
 
     private static void Validate(string value)
     {
-        var validationException = new ValidationException();
-
-        if (value.Length <= MaxLength) return;
-
-        validationException.AddException(
-            new MaxLengthException($"The maximum length of the description is {MaxLength}")
-        );
-
-        throw validationException;
+        if (value.Length > MaxLength)
+        {
+            throw new ValidationException($"The maximum length of the description is {MaxLength}");
+        }
     }
 }

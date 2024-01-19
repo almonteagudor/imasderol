@@ -4,12 +4,12 @@ namespace imasderol.domain.shared.valueObjects;
 
 public class Name
 {
-    public string Value { get; init; }
+    public const int MinLength = 3;
+    public const int MaxLength = 100;
 
-    private const int MinLength = 3;
-    private const int MaxLength = 100;
+    public string Value { get; }
 
-    public Name(string value)
+    internal Name(string value)
     {
         Validate(value);
 
@@ -18,25 +18,12 @@ public class Name
 
     private static void Validate(string value)
     {
-        var validationException = new ValidationException();
-
         switch (value.Length)
         {
             case < MinLength:
-                validationException.AddException(
-                    new MinLengthException($"The minimum length of the name is {MinLength}")
-                );
-                break;
+                throw new ValidationException($"The minimum length of the name is {MinLength}");
             case > MaxLength:
-                validationException.AddException(
-                    new MaxLengthException($"The maximum length of the name is {MaxLength}")
-                );
-                break;
-        }
-
-        if (validationException.HasExceptions())
-        {
-            throw validationException;
+                throw new ValidationException($"The maximum length of the name is {MaxLength}");
         }
     }
 }

@@ -3,16 +3,14 @@ using Microsoft.EntityFrameworkCore;
 
 namespace imasderol.infrastructure;
 
-public class ImasderolDb : DbContext
+public class ImasderolDbContext : DbContext
 {
-    public ImasderolDb(DbContextOptions options) : base(options) { }
+    public DbSet<SkillEntity>? Skills { get; set; }
     
-    public ImasderolDb() { }
-    
-    public DbSet<SkillDto>? Skills { get; set; }
-    
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    protected override void OnConfiguring(DbContextOptionsBuilder options)
     {
-        optionsBuilder.UseSqlite("Data Source=C:\\imasderol\\imasderol.db");
+        const string connectionString = "server=localhost; database=imasderol; user=imasderol; password=imasderol";
+
+        options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
     }
 }

@@ -1,11 +1,9 @@
 ﻿using imasderol.domain.shared.exceptions;
-using imasderol.domain.shared.valueObjects;
 using imasderol.domain.zombicide.skill;
-using Microsoft.EntityFrameworkCore;
 
 namespace imasderol.infrastructure.zombicide.skill;
 
-public class SkillRepository(ImasderolDb context) : ISkillRepository
+public class SkillRepository(ImasderolDbContext context, SkillCreator skillCreator) : ISkillRepository
 {
     public Skill FindById(Guid id)
     {
@@ -19,7 +17,7 @@ public class SkillRepository(ImasderolDb context) : ISkillRepository
         return DtoToSkill(skill);
     }
 
-    public IEnumerable<Skill> FindAll()
+    public IEnumerable<Skill> GetAll()
     {
         var skills = context.Skills!.ToList();
 
@@ -44,7 +42,6 @@ public class SkillRepository(ImasderolDb context) : ISkillRepository
         skillDto.Name = skill.Name.Value;
         skillDto.Description = skill.Description.Value;
         
-        context.Entry(skillDto).State = EntityState.Modified;
         context.SaveChanges();
     }
 
@@ -57,13 +54,14 @@ public class SkillRepository(ImasderolDb context) : ISkillRepository
             throw new NotFoundException($"Skill not found | {skill.Id}");
         }
         
-        context.Entry(skillDto).State = EntityState.Deleted;
+        context.Skills!.Remove(skillDto);
+        
         context.SaveChanges();
     }
 
-    private SkillDto SkillToDto(Skill skill)
+    private SkillEntity SkillToDto(Skill skill)
     {
-        return new SkillDto
+        return new SkillEntity
         {
             Id = skill.Id,
             Name = skill.Name.Value,
@@ -71,8 +69,8 @@ public class SkillRepository(ImasderolDb context) : ISkillRepository
         };
     }
 
-    private Skill DtoToSkill(SkillDto dto)
+    private Skill DtoToSkill(SkillEntity entity)
     {
-        return new Skill(dto.Id, new Name(dto.Name!), new Description(dto.Description!));
+        return skillCreator.Execute(entity.Id, entity.Name, entity.Description);
     }
 }

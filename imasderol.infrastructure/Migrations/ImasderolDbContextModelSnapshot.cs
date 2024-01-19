@@ -9,25 +9,27 @@ using imasderol.infrastructure;
 
 namespace imasderol.infrastructure.Migrations
 {
-    [DbContext(typeof(ImasderolDb))]
-    partial class ImasderolDbModelSnapshot : ModelSnapshot
+    [DbContext(typeof(ImasderolDbContext))]
+    partial class ImasderolDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "8.0.1");
+            modelBuilder
+                .HasAnnotation("ProductVersion", "8.0.1")
+                .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("imasderol.infrastructure.zombicide.skill.SkillDto", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("char(36)");
 
                     b.Property<string>("Description")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Name")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("longtext");
 
                     b.HasKey("Id");
 
