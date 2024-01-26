@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using imasderol.infrastructure;
 
@@ -10,9 +11,11 @@ using imasderol.infrastructure;
 namespace imasderol.infrastructure.Migrations
 {
     [DbContext(typeof(ImasderolDbContext))]
-    partial class ImasderolDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240125184752_Weapon Added")]
+    partial class WeaponAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

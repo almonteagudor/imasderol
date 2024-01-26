@@ -10,4 +10,11 @@
     <ProjectReference Include="..\imasderol.domain\imasderol.domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="zombicide\weapon\createWeaponCommand\" />
+    <Folder Include="zombicide\weapon\deleteWeaponCommand\" />
+    <Folder Include="zombicide\weapon\findWeaponByIdQuery\" />
+    <Folder Include="zombicide\weapon\updateWeaponCommand\" />
+  </ItemGroup>
+
 </Project>
