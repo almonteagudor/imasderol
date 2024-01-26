@@ -10,19 +10,19 @@ namespace imasderol.domain.zombicide.Weapon.ValueObjects
     public class OpensDoors
     {
 
-        public bool Value { get; }
-        public bool Silent { get; }
+        public bool CanOpenDoors { get; }
+        public bool? IsSilent { get; }
 
-        internal OpensDoors(bool value,bool silent)
+        internal OpensDoors(bool canOpenDoors,bool? isSilent)
         {
-            Validate(value,silent);
+            Validate(canOpenDoors,isSilent);
 
-            Value = value;
+            CanOpenDoors = canOpenDoors;
         }
 
-        private static void Validate(bool value, bool silent)
+        private static void Validate(bool canOpenDoors, bool? isSilent)
         {
-            if (!value && silent) throw new ValidationException("Equipment that cannot open doors cannot be silent");
+            if (!canOpenDoors && isSilent != null) throw new ValidationException($"For equipment that cannot open doors {nameof(IsSilent)} should be null");            
         }
     }
 }

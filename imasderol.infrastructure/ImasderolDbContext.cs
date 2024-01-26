@@ -1,4 +1,5 @@
 ﻿using imasderol.infrastructure.zombicide.skill;
+using imasderol.infrastructure.zombicide.weapon;
 using Microsoft.EntityFrameworkCore;
 
 namespace imasderol.infrastructure;

@@ -8,24 +8,26 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace imasderol.domain.zombicide.Weapon
+namespace imasderol.domain.zombicide.weapon
 {
     public class Weapon
     {
         public Guid Id { get; init; }
         public Name Name { get;  }
-        public bool DualWield { get; }
+        public bool IsDual { get; }
+        public bool? IsSniper { get; }
+        public bool? IsSlowToReload { get; }
         public OpensDoors Doors { get; }
         public Attack PrimaryAttack { get; }
-        public Attack SecondaryAttack { get; }
-        public AmmunitionType AmmunitionType { get; }
+        public Attack? SecondaryAttack { get; }
+        public AmmunitionType? AmmunitionType { get; }
 
         internal Weapon(Guid id, Name name, bool dualWield, OpensDoors doors, Attack primaryAttack, Attack secondaryAttack, AmmunitionType ammunition)
         {
             Validate(name, doors, primaryAttack, secondaryAttack);
             Id = id;
             Name = name;
-            DualWield = dualWield;
+            IsDual = dualWield;
             Doors = doors;
             PrimaryAttack = primaryAttack;
             SecondaryAttack = secondaryAttack;

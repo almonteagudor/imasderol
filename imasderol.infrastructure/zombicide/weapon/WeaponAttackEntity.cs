@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace imasderol.infrastructure.zombicide.skill
+namespace imasderol.infrastructure.zombicide.weapon
 {
     public class WeaponAttackEntity
     {

@@ -4,14 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace imasderol.infrastructure.zombicide.skill
+namespace imasderol.infrastructure.zombicide.weapon
 {
     public class WeaponEntity
     {
         public Guid Id { get; init; }
 
         public string Name { get; set; }
-      
+
+        public int Durability { get; set; }
+
         public bool DuaWield { get; set; }
 
         public bool OpensDoors { get; set; }

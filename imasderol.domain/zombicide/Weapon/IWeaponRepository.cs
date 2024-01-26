@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace imasderol.domain.zombicide.Weapon
+namespace imasderol.domain.zombicide.weapon
 {
     public interface IWeaponRepository
     {
