@@ -2,6 +2,7 @@
 using imasderol.application.zombicide.skill.deleteSkillCommand;
 using imasderol.application.zombicide.skill.findSkillByIdQuery;
 using imasderol.application.zombicide.skill.getSkillsQuery;
+using imasderol.application.zombicide.skill.updateSkillCommand;
 using imasderol.domain.zombicide.skill;
 using imasderol.infrastructure.zombicide.skill;
 
@@ -27,7 +28,7 @@ public static class ImasderolServicesManager
     
     private static void AddServices(this IServiceCollection services)
     {
-        services.AddScoped<SkillCreator>();
+        
     }
     
     private static void AddImplementations(this IServiceCollection services)

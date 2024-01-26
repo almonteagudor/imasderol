@@ -1,9 +1,9 @@
 ﻿using imasderol.domain.shared.exceptions;
 using imasderol.domain.zombicide.skill;
 
-namespace imasderol.application.zombicide.skill.createSkillCommand;
+namespace imasderol.application.zombicide.skill.updateSkillCommand;
 
-public class UpdateSkillCommandHandler(SkillCreator skillCreator, ISkillRepository repository)
+public class UpdateSkillCommandHandler(ISkillRepository repository)
 {
     /// <summary>
     /// Executes the creation of a new skill based on the provided CreateSkillCommand.
@@ -14,7 +14,7 @@ public class UpdateSkillCommandHandler(SkillCreator skillCreator, ISkillReposito
     /// <exception cref="ValidationException">Thrown if there are validation errors in the name or description parameters.</exception>
     public Skill Execute(UpdateSkillCommand skillCommand)
     {
-        var skill = skillCreator.Execute(skillCommand.Id, skillCommand.Name, skillCommand.Description);
+        var skill = new Skill(skillCommand.Id, skillCommand.Name, skillCommand.Description);
         
         repository.Update(skill);
 

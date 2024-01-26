@@ -13,6 +13,6 @@ public class FindSkillByIdQueryHandler(ISkillRepository repository)
     /// <exception cref="NotFoundException">Thrown when a skill with the specified identifier is not found.</exception>
     public Skill Execute(FindSkillByIdQuery query)
     {
-        return repository.FindById(Guid.Parse(query.Id));
+        return repository.FindById(query.Id);
     }
 }

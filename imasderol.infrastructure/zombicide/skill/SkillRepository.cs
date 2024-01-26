@@ -3,74 +3,57 @@ using imasderol.domain.zombicide.skill;
 
 namespace imasderol.infrastructure.zombicide.skill;
 
-public class SkillRepository(ImasderolDbContext context, SkillCreator skillCreator) : ISkillRepository
+public class SkillRepository(ImasderolDbContext context) : ISkillRepository
 {
-    public Skill FindById(Guid id)
+    public Skill FindById(string id)
     {
-        var skill = context.Skills!.FirstOrDefault(s => s.Id == id);
+        var skill = context.Skills!.FirstOrDefault(skill => skill.Id == id);
 
         if (skill is null)
         {
             throw new NotFoundException($"Skill not found | {id}");
         }
 
-        return DtoToSkill(skill);
+        return skill;
     }
 
     public IEnumerable<Skill> GetAll()
     {
-        var skills = context.Skills!.ToList();
-
-        return skills.Select(DtoToSkill);
+        return context.Skills!.ToList();
     }
 
     public void Save(Skill skill)
     {
-        context.Skills!.Add(SkillToDto(skill));
+        context.Skills!.Add(skill);
         context.SaveChanges();
     }
 
-    public void Update(Skill skill)
+    public void Update(Skill updatedSkill)
     {
-        var skillDto = context.Skills!.FirstOrDefault(s => s.Id == skill.Id);
+        var skill = context.Skills!.FirstOrDefault(skill => skill.Id == updatedSkill.Id);
 
-        if (skillDto == null)
+        if (skill == null)
         {
-            throw new NotFoundException($"Skill not found | {skill.Id}");
+            throw new NotFoundException($"Skill not found | {updatedSkill.Id}");
         }
 
-        skillDto.Name = skill.Name.Value;
-        skillDto.Description = skill.Description.Value;
+        skill.Name = updatedSkill.Name;
+        skill.Description = updatedSkill.Description;
         
         context.SaveChanges();
     }
 
-    public void Delete(Skill skill)
+    public void Delete(string id)
     {
-        var skillDto = context.Skills!.FirstOrDefault(s => s.Id == skill.Id);
+        var skill = context.Skills!.FirstOrDefault(skill => skill.Id == id);
 
-        if (skillDto == null)
+        if (skill == null)
         {
-            throw new NotFoundException($"Skill not found | {skill.Id}");
+            throw new NotFoundException($"Skill not found | {id}");
         }
         
-        context.Skills!.Remove(skillDto);
+        context.Skills!.Remove(skill);
         
         context.SaveChanges();
-    }
-
-    private SkillEntity SkillToDto(Skill skill)
-    {
-        return new SkillEntity
-        {
-            Id = skill.Id,
-            Name = skill.Name.Value,
-            Description = skill.Description.Value
-        };
-    }
-
-    private Skill DtoToSkill(SkillEntity entity)
-    {
-        return skillCreator.Execute(entity.Id, entity.Name, entity.Description);
     }
 }

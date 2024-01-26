@@ -3,7 +3,7 @@ using imasderol.domain.zombicide.skill;
 
 namespace imasderol.application.zombicide.skill.createSkillCommand;
 
-public class CreateSkillCommandHandler(SkillCreator skillCreator, ISkillRepository repository)
+public class CreateSkillCommandHandler(ISkillRepository repository)
 {
     /// <summary>
     /// Executes the creation of a new skill based on the provided CreateSkillCommand.
@@ -14,7 +14,7 @@ public class CreateSkillCommandHandler(SkillCreator skillCreator, ISkillReposito
     /// <exception cref="ValidationException">Thrown if there are validation errors in the name or description parameters.</exception>
     public Skill Execute(CreateSkillCommand skillCommand)
     {
-        var skill = skillCreator.Execute(Guid.NewGuid(), skillCommand.Name, skillCommand.Description);
+        var skill = new Skill(Guid.NewGuid().ToString(), skillCommand.Name, skillCommand.Description);
         
         repository.Save(skill);
 

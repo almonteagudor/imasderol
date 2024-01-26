@@ -1,3 +1,3 @@
-﻿namespace imasderol.application.zombicide.skill.createSkillCommand;
+﻿namespace imasderol.application.zombicide.skill.updateSkillCommand;
 
-public record UpdateSkillCommand(Guid Id, string Name, string Description);
+public record UpdateSkillCommand(string? Id, string Name, string Description);

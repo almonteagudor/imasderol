@@ -13,8 +13,6 @@ public class DeleteSkillCommandHandler(ISkillRepository repository)
     /// <exception cref="NotFoundException">Thrown when a skill with the specified identifier is not found.</exception>
     public void Execute(DeleteSkillCommand command)
     {
-        var skill = repository.FindById(Guid.Parse(command.Id));
-        
-        repository.Delete(skill);
+        repository.Delete(command.Id);
     }
 }
