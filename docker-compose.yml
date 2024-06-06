@@ -1,18 +1,33 @@
-﻿version: '3.1'
-
 services:
-  db:
-    image: mysql:8.2.0
-    restart: always
+  nginx:
+    build:
+      context: ./docker/nginx/nginx_1-25-2
+    container_name: imasderol-nginx
+    depends_on:
+      - php
+    ports:
+      - '80:80'
+  php:
+    build:
+      context: ./docker/php/php_8-2
+    container_name: imasderol-php
+    depends_on:
+      - mysql
+    ports:
+      - '9000:9000'
+    volumes:
+      - '.:/var/www/html'
+  mysql:
+    container_name: imasderol-mysql
     environment:
       MYSQL_ROOT_PASSWORD: admin
       MYSQL_DATABASE: imasderol
-      MYSQL_USER: imasderol
-      MYSQL_PASSWORD: imasderol
+      MYSQL_USER: montisgal
+      MYSQL_PASSWORD: montisgal
+    image: mysql:8.2.0
     ports:
       - "3306:3306"
     volumes:
       - imasderol-db:/var/lib/mysql
-
 volumes:
   imasderol-db:
