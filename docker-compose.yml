@@ -13,6 +13,8 @@ services:
     container_name: imasderol-php
     depends_on:
       - mysql
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     ports:
       - '9000:9000'
     volumes:
