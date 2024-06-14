@@ -32,4 +32,7 @@ return [
     '@symfony/stimulus-bundle' => [
         'path' => './vendor/symfony/stimulus-bundle/assets/dist/loader.js',
     ],
+    'what-input' => [
+        'version' => '5.2.12',
+    ],
 ];
