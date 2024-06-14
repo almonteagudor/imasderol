@@ -16,4 +16,14 @@ return [
         'path' => './assets/app.js',
         'entrypoint' => true,
     ],
+    'foundation-sites/dist/css/foundation.min.css' => [
+        'version' => '6.8.1',
+        'type' => 'css',
+    ],
+    'foundation-sites/dist/js/foundation.min.js' => [
+        'version' => '6.8.1',
+    ],
+    'jquery' => [
+        'version' => '3.7.1',
+    ],
 ];
