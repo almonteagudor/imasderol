@@ -15,7 +15,7 @@ security:
             security: false
         api:
             access_token:
-                    token_handler: App\Security\AccessTokenHandler
+                token_handler: App\Security\AccessTokenHandler
             json_login:
                 check_path: api_login
             lazy: true
