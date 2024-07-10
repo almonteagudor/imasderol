@@ -13,9 +13,15 @@ security:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
-        main:
+        api:
+            access_token:
+                    token_handler: App\Security\AccessTokenHandler
+            json_login:
+                check_path: api_login
             lazy: true
+            pattern: ^/api
             provider: app_user_provider
+            stateless: true
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
